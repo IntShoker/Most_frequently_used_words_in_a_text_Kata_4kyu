@@ -10,36 +10,33 @@ namespace Most_frequently_used_words_in_a_text_Kata_4kyu
     {
         public static List<string> Top3(string s)
         {
-            //list<string> a = new list<string>();
-            Regex regex = new Regex(@"\b(\w)+");
+            
+            Regex regex = new Regex(@"\b(\w+)(\')?(\S+)?(\w+)?");
             MatchCollection matches = regex.Matches(s);
-            //if (matches.count > 1)
-            //{
-            //    foreach (match match in matches)
-            //    {
-            //        a.add(match.tostring());
-            //    }
-            //}
             List<string> a = new List<string>();
-             a = (List<string>)matches.GroupBy(c => c.ToString()).Where(f=>f.Count()>1).Select(d => d.Key).ToList();
-            foreach (string item in a)
+            List<string> b = new List<string>();
+            a = (List<string>)matches.GroupBy(c => c.ToString().
+            ToLower()).Where(f=>f.Count()>0).OrderByDescending(f=>f.Count()).
+            Select(d => d.Key).ToList();
+            
+            for(int i = 0; i < a.Count && i < 3; i++)
             {
-                Console.WriteLine(item);
+                b.Add(a[i]);
             }
-            return a;
+            return b;
             
         }
         static void Main(string[] args)
         {
 
-            string text = "ab ba ab db db db ab ba c s d f g";
+            string text = "  wont won't won't ";
             Top3(text);
-            //foreach (string item in top3(text))
-            //{
-            //    console.writeline(item);
-            //}
-            
-            
+            foreach (string item in Top3(text))
+            {
+                Console.WriteLine(item);
+            }
+
+
         }
     }
 }
